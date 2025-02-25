@@ -1,44 +1,62 @@
-[gd_scene load_steps=7 format=3 uid="uid://dfaseghdu4lyl"]
+[gd_scene load_steps=9 format=3 uid="uid://dfaseghdu4lyl"]
 
 [ext_resource type="Shader" path="res://shaders/portal.gdshader" id="1_vr3av"]
 [ext_resource type="Script" path="res://scripts/Portal.gd" id="2_4ovfg"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_1nj05"]
+viewport_path = NodePath("Portal1/SubViewport")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_r00d1"]
 resource_local_to_scene = true
 render_priority = 0
 shader = ExtResource("1_vr3av")
+shader_parameter/camera_tex = SubResource("ViewportTexture_1nj05")
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_eftap"]
 material = SubResource("ShaderMaterial_r00d1")
-size = Vector2(0.8, 1.9)
+size = Vector2(2, 1.9)
+orientation = 2
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_rvxiv"]
+viewport_path = NodePath("Portal2/SubViewport")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_uh76v"]
 resource_local_to_scene = true
 render_priority = 0
 shader = ExtResource("1_vr3av")
+shader_parameter/camera_tex = SubResource("ViewportTexture_rvxiv")
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_etno5"]
 material = SubResource("ShaderMaterial_uh76v")
-size = Vector2(0.8, 1.9)
+size = Vector2(2, 1.9)
+orientation = 2
 
 [node name="PortalPair" type="Node"]
 
-[node name="Portal1" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 1, 0.534367)
+[node name="Portal1" type="MeshInstance3D" parent="." node_paths=PackedStringArray("other_portal")]
+transform = Transform3D(1, 0, 0, 0, 1, -1.06581e-14, 0, 1.06581e-14, 1, 0, 1, 0.534367)
+layers = 2
 mesh = SubResource("PlaneMesh_eftap")
 script = ExtResource("2_4ovfg")
+other_portal = NodePath("../Portal2")
 
 [node name="SubViewport" type="SubViewport" parent="Portal1"]
+render_target_update_mode = 4
 
 [node name="Camera3D" type="Camera3D" parent="Portal1/SubViewport"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.64694, 0.417779, 0)
+cull_mask = 1048573
 
-[node name="Portal2" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, -2, 1, 0.534367)
+[node name="Portal2" type="MeshInstance3D" parent="." node_paths=PackedStringArray("other_portal")]
+transform = Transform3D(1, 0, 0, 0, 1, -1.06581e-14, 0, 1.06581e-14, 1, -2, 1, 0.534367)
+layers = 2
 mesh = SubResource("PlaneMesh_etno5")
 script = ExtResource("2_4ovfg")
+other_portal = NodePath("../Portal1")
 
 [node name="SubViewport" type="SubViewport" parent="Portal2"]
+render_target_update_mode = 4
 
 [node name="Camera3D" type="Camera3D" parent="Portal2/SubViewport"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.91979, 0.440579, 0)
+cull_mask = 1048573
