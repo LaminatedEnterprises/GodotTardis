@@ -1,0 +1,70 @@
+[gd_scene load_steps=11 format=3 uid="uid://de0i1b0651ox1"]
+
+[ext_resource type="PackedScene" uid="uid://dfaseghdu4lyl" path="res://scenes/portal_pair.tscn" id="1_cs6n5"]
+[ext_resource type="PackedScene" uid="uid://bmbwwgjdvw7kq" path="res://scenes/player.tscn" id="3_plmds"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_g35ou"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_qlc7h"]
+sky_material = SubResource("ProceduralSkyMaterial_g35ou")
+
+[sub_resource type="Environment" id="Environment_h5r1h"]
+background_mode = 2
+sky = SubResource("Sky_qlc7h")
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3a5hs"]
+albedo_color = Color(0.3, 0.545, 1, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_540vd"]
+material = SubResource("StandardMaterial3D_3a5hs")
+size = Vector3(1, 2, 1)
+
+[sub_resource type="Environment" id="Environment_dfde5"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_yxhi3"]
+size = Vector2(20, 20)
+
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_lgtea"]
+data = PackedVector3Array(10, 0, 10, -10, 0, 10, 10, 0, -10, -10, 0, 10, -10, 0, -10, 10, 0, -10)
+
+[node name="Demo" type="Node3D"]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75, -0.433013, 0, 0, 0)
+shadow_enabled = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_h5r1h")
+
+[node name="Tardis" type="Node3D" parent="."]
+
+[node name="Exterior" type="MeshInstance3D" parent="Tardis"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+mesh = SubResource("BoxMesh_540vd")
+
+[node name="PortalPair" parent="." instance=ExtResource("1_cs6n5")]
+
+[node name="Portal1" parent="PortalPair" index="0" node_paths=PackedStringArray("player")]
+player = NodePath("../../Player")
+
+[node name="Camera3D" parent="PortalPair/Portal1/SubViewport" index="0"]
+environment = SubResource("Environment_dfde5")
+
+[node name="Portal2" parent="PortalPair" index="1" node_paths=PackedStringArray("player")]
+player = NodePath("../../Player")
+
+[node name="Floor" type="MeshInstance3D" parent="."]
+mesh = SubResource("PlaneMesh_yxhi3")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Floor"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor/StaticBody3D"]
+shape = SubResource("ConcavePolygonShape3D_lgtea")
+
+[node name="Player" parent="." instance=ExtResource("3_plmds")]
+
+[editable path="PortalPair"]
