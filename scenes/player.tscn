@@ -25,8 +25,10 @@ shape = SubResource("CylinderShape3D_eq5v0")
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
-near = 0.265
+cull_mask = 1048571
+near = 0.001
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Camera3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.414543)
+layers = 4
 mesh = SubResource("BoxMesh_ju8o1")

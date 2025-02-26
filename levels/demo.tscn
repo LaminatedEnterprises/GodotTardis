@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://de0i1b0651ox1"]
+[gd_scene load_steps=13 format=3 uid="uid://de0i1b0651ox1"]
 
 [ext_resource type="PackedScene" uid="uid://dfaseghdu4lyl" path="res://scenes/portal_pair.tscn" id="1_cs6n5"]
 [ext_resource type="PackedScene" uid="uid://bmbwwgjdvw7kq" path="res://scenes/player.tscn" id="3_plmds"]
@@ -22,8 +22,6 @@ albedo_color = Color(0.3, 0.545, 1, 1)
 [sub_resource type="BoxMesh" id="BoxMesh_540vd"]
 material = SubResource("StandardMaterial3D_3a5hs")
 size = Vector3(1, 2, 1)
-
-[sub_resource type="Environment" id="Environment_dfde5"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_yxhi3"]
 size = Vector2(20, 20)
@@ -50,6 +48,7 @@ shadow_enabled = true
 environment = SubResource("Environment_h5r1h")
 
 [node name="Tardis" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.2195, 0, -2.07748)
 
 [node name="Exterior" type="MeshInstance3D" parent="Tardis"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
@@ -57,19 +56,17 @@ mesh = SubResource("BoxMesh_540vd")
 
 [node name="PortalPair" parent="." instance=ExtResource("1_cs6n5")]
 
-[node name="Portal1" parent="PortalPair" index="0" node_paths=PackedStringArray("player")]
-transform = Transform3D(-4.37114e-08, -1.23002e-14, -1, 0, 1, -1.06581e-14, 1, -3.55271e-15, -4.37114e-08, 9, 1, 0.534367)
-player = NodePath("../../Player")
+[node name="Portal1" parent="PortalPair" index="0"]
+transform = Transform3D(-8.74228e-08, 0, -2, 0, 2, 0, 2, 0, -8.74228e-08, 8, 4.001, 0)
 
-[node name="Camera3D" parent="PortalPair/Portal1/SubViewport" index="0"]
-environment = SubResource("Environment_dfde5")
+[node name="CollisionShape3D" parent="PortalPair/Portal1/PortalController/Area3D" index="0"]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
 
-[node name="Portal2" parent="PortalPair" index="1" node_paths=PackedStringArray("player")]
-transform = Transform3D(-4.37114e-08, 1.23002e-14, 1, 0, 1, -1.06581e-14, -1, -3.55271e-15, -4.37114e-08, -8.94254, 1, -0.465633)
-player = NodePath("../../Player")
+[node name="Portal2" parent="PortalPair" index="1"]
+transform = Transform3D(-8.74228e-08, 0, 2, 0, 2, 0, -2, 0, -8.74228e-08, -8, 4.001, 0)
 
-[node name="Camera3D" parent="PortalPair/Portal2/SubViewport" index="0"]
-transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -4.9292, 0.440579, -0.898412)
+[node name="CollisionShape3D" parent="PortalPair/Portal2/PortalController/Area3D" index="0"]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
 
 [node name="Floor" type="MeshInstance3D" parent="."]
 mesh = SubResource("PlaneMesh_yxhi3")
@@ -80,6 +77,7 @@ mesh = SubResource("PlaneMesh_yxhi3")
 shape = SubResource("ConcavePolygonShape3D_lgtea")
 
 [node name="Player" parent="." instance=ExtResource("3_plmds")]
+SPEED = 3.0
 yaw_speed = -0.01
 
 [node name="Box" type="MeshInstance3D" parent="."]
@@ -137,3 +135,5 @@ mesh = SubResource("BoxMesh_wfj2c")
 shape = SubResource("ConcavePolygonShape3D_eunc4")
 
 [editable path="PortalPair"]
+[editable path="PortalPair/Portal1"]
+[editable path="PortalPair/Portal2"]
